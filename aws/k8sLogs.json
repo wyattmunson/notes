@@ -1,0 +1,222 @@
+// `message` field taken from different WCF services
+[
+  // rain-adapter-service
+  {
+    "level": "info",
+    "time": 1588644130739,
+    "pid": 16,
+    "hostname": "rain-adapter-service-6bb6bc688d-df446",
+    "Correlation-ID": "6e605920-8e74-11ea-a6f3-694ac56ec168",
+    "msg": "Response: {\"status\":200,\"message\":\"OK\",\"header\":{\"correlation-id\":\"6e605920-8e74-11ea-a6f3-694ac56ec168\",\"content-type\":\"application/json; charset=utf-8\"}} Response body: {\"timestamp\":\"2020-05-05T02:02:10.739Z\"}",
+    "v": 1
+  },
+
+  // token-service
+  {
+    "level": "fatal",
+    "ts": 1588644177.7274234,
+    "caller": "build/main.go:184",
+    "msg": "Error creating a connection to postgres: pq: relation \"tokens\" does not exist",
+    "stacktrace": "main.main\n\t/build/main.go:184\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:203"
+  },
+
+  // applications-service
+  {
+    "level": "info",
+    "ts": 1588627083.0531843,
+    "caller": "logging/access-logger.go:46",
+    "msg": "Inbound HTTP request: completed",
+    "correlationId": "bd29e339-8e4c-11ea-9dd8-daa128ae7504",
+    "status": 200,
+    "responseTime": 0.001262698,
+    "bytesWritten": 11,
+    "headers": {
+      "Content-Type": ["application/json"],
+      "Correlation-Id": ["bd29e339-8e4c-11ea-9dd8-daa128ae7504"]
+    },
+    "body": { "count": 0 }
+  },
+
+  // applications-ui
+  {
+    "level": "info",
+    "time": 1588624222710,
+    "pid": 24,
+    "hostname": "applications-ui-847d84f66-6tgk9",
+    "correlationId": "1422a090-8e46-11ea-a929-3916ed078b26:142ab6e0-8e46-11ea-a929-3916ed078b26",
+    "body": {
+      "Id": 601,
+      "SourceCompanyId": 5,
+      "DisplayName": "VA-STR-F-756A1256",
+      "PublicId": "756a1256-0e18-4ced-9828-a33955c4426d",
+      "FriendlyName": "Store friendly",
+      "Email": "deepi.wcf@gmail.com"
+    },
+    "headers": {
+      "cache-control": "private, no-cache=\"set-cookie\"",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Mon, 04 May 2020 20:30:22 GMT",
+      "server": "Microsoft-IIS/10.0",
+      "set-cookie": [
+        "AWSELB=79CFFDA504DABEE9614D0071048E689E757851E9A071555E5D4AB8B444898FFAC8B178CEEDBB7D190C6481EF052E78865DA2C5E5FE0C6DFB703DF9BBE019D80866205CCE4A;PATH=/;MAX-AGE=86400",
+        "AWSELBCORS=79CFFDA504DABEE9614D0071048E689E757851E9A071555E5D4AB8B444898FFAC8B178CEEDBB7D190C6481EF052E78865DA2C5E5FE0C6DFB703DF9BBE019D80866205CCE4A;PATH=/;MAX-AGE=86400;SECURE;SAMESITE=None"
+      ],
+      "x-aspnet-version": "4.0.30319",
+      "x-powered-by": "ASP.NET",
+      "content-length": "176",
+      "connection": "Close"
+    },
+    "requestUrl": "https://fo-dev.westcreekfin.com/api/Dealer?publicId=756a1256-0e18-4ced-9828-a33955c4426d",
+    "statusCode": 200,
+    "msg": "api response",
+    "v": 1
+  },
+
+  // grade-prime-orchestration
+  {
+    "level": "debug",
+    "time": 1588622757870,
+    "pid": 24,
+    "hostname": "grade-prime-orchestration-79875d649c-bcgr5",
+    "messages": [
+      "[AWS s3 403 0.06s 0 retries] putObject({\n  Body: <Buffer 7b 22 64 61 74 61 22 3a 7b 22 61 63 63 74 22 3a 32 30 30 35 34 39 38 2c 22 61 64 64 72 65 73 73 22 3a 22 39 30 31 39 20 4c 79 6e 6e 20 41 56 22 2c 22 ... 8685 more bytes>,\n  Bucket: 'wcf-audit-logs-dev',\n  ContentEncoding: 'binary/octet-stream',\n  ContentType: 'application/json',\n  Key: 'orc-loan/audit_1588622757808',\n  ServerSideEncryption: 'AES256'\n})"
+    ],
+    "msg": "AWS S3 messages.",
+    "v": 1
+  },
+
+  // grade-prime-orchestration (HTTP request)
+  {
+    "level": "info",
+    "time": 1588622757811,
+    "pid": 24,
+    "hostname": "grade-prime-orchestration-79875d649c-bcgr5",
+    "req": {
+      "id": 1,
+      "method": "POST",
+      "url": "/grade-loan",
+      "headers": {
+        "host": "grade-prime-orchestration.dev:3000",
+        "user-agent": "Go-http-client/1.1",
+        "content-length": "315",
+        "accept": "application/json",
+        "content-type": "application/json",
+        "correlation-id": "9a9197c0-8e42-11ea-89e3-63dbfd3ff74b:a9602e60-8e42-11ea-89e3-63dbfd3ff74b",
+        "accept-encoding": "gzip"
+      },
+      "remoteAddress": "::ffff:10.3.1.244",
+      "remotePort": 50714
+    },
+    "res": {
+      "statusCode": 200,
+      "headers": {
+        "correlation-id": "9a9197c0-8e42-11ea-89e3-63dbfd3ff74b:a9602e60-8e42-11ea-89e3-63dbfd3ff74b",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "8400"
+      }
+    },
+    "responseTime": 1080,
+    "msg": "request completed",
+    "v": 1
+  },
+
+  // loans-service
+  {
+    "level": "info",
+    "ts": 1588622756.6563084,
+    "caller": "logging/http-logger.go:82",
+    "msg": "Outbound HTTP request: completed",
+    "status": "200 OK",
+    "statusCode": 200,
+    "responseTime": 1.409,
+    "contentLength": -1,
+    "headers": {
+      "Access-Control-Allow-Credentials": ["true"],
+      "Access-Control-Allow-Headers": [
+        "Autopal-Session,Authorization,X-Authorization,Authorization-Mode,Origin,Accept,Content-Type,X-Requested-With,X-HTTP-Method-Override,Access-Control-Allow-Origin,MaxDataServiceVersion,DataServiceVersion,Autopal-Instance-ID"
+      ],
+      "Access-Control-Allow-Methods": ["GET, PUT, POST, DELETE, OPTIONS"],
+      "Access-Control-Allow-Origin": ["*"],
+      "Access-Control-Max-Age": ["86400"],
+      "Authorization": "[Redacted]",
+      "Cache-Control": [
+        "no-cache",
+        "max-age=0, no-cache, no-store, must-revalidate"
+      ],
+      "Content-Type": ["application/json"],
+      "Date": ["Mon, 04 May 2020 20:05:56 GMT"],
+      "Pragma": ["no-cache"],
+      "Referrer-Policy": ["no-referrer-when-downgrade"],
+      "Server": ["Apache/2.4.41 ()"],
+      "Strict-Transport-Security": [
+        "max-age=31536000; includeSubDomains; preload"
+      ],
+      "X-Content-Type-Options": ["nosniff", "nosniff"],
+      "X-Frame-Options": ["SAMEORIGIN"],
+      "X-Powered-By": ["PHP/7.2.28"],
+      "X-Xss-Protection": ["1; mode=block"]
+    },
+    "body": {
+      "contents": "...VERY LONG REQUEST BODY..."
+    }
+  },
+
+  // customers-service
+  {
+    "level": "info",
+    "ts": 1588622741.8878272,
+    "caller": "logging/access-logger.go:46",
+    "msg": "Inbound HTTP request: completed",
+    "correlationId": "9a9197c0-8e42-11ea-89e3-63dbfd3ff74b:a1908450-8e42-11ea-89e3-63dbfd3ff74b",
+    "status": 404,
+    "responseTime": 0.037492747,
+    "bytesWritten": 0,
+    "headers": {
+      "Correlation-Id": [
+        "9a9197c0-8e42-11ea-89e3-63dbfd3ff74b:a1908450-8e42-11ea-89e3-63dbfd3ff74b"
+      ]
+    },
+    "body": null
+  },
+
+  // grade-prime-transunion (error)
+  {
+    "level": "error",
+    "ts": 1588646285.5017269,
+    "caller": "westcreek/server.go:186",
+    "msg": "TransUnion ping error.",
+    "error": "Get https://netaccess-test.transunion.com/ping: dial tcp 66.175.240.18:443: connect: connection refused",
+    "stacktrace": "main.(*server).readiness\n\t/opt/westcreek/server.go:186\nnet/http.HandlerFunc.ServeHTTP\n\t/usr/local/go/src/net/http/server.go:2007\ngithub.com/go-chi/chi.(*Mux).routeHTTP\n\t/opt/westcreek/vendor/github.com/go-chi/chi/mux.go:425\nnet/http.HandlerFunc.ServeHTTP\n\t/usr/local/go/src/net/http/server.go:2007\ngithub.com/go-chi/chi/middleware.Heartbeat.func1.1\n\t/opt/westcreek/vendor/github.com/go-chi/chi/middleware/heartbeat.go:21\nnet/http.HandlerFunc.ServeHTTP\n\t/usr/local/go/src/net/http/server.go:2007\ngithub.com/go-chi/chi/middleware.Timeout.func1.1\n\t/opt/westcreek/vendor/github.com/go-chi/chi/middleware/timeout.go:45\nnet/http.HandlerFunc.ServeHTTP\n\t/usr/local/go/src/net/http/server.go:2007\ngithub.com/go-chi/chi.(*Mux).ServeHTTP\n\t/opt/westcreek/vendor/github.com/go-chi/chi/mux.go:82\nnet/http.serverHandler.ServeHTTP\n\t/usr/local/go/src/net/http/server.go:2802\nnet/http.(*conn).serve\n\t/usr/local/go/src/net/http/server.go:1890"
+  },
+
+  // grade-prime-transunion (info)
+  {
+    "level": "info",
+    "ts": 1588622757.7668462,
+    "caller": "logging/access-logger.go:45",
+    "msg": "Inbound HTTP request: completed",
+    "correlationId": "9a9197c0-8e42-11ea-89e3-63dbfd3ff74b:a9602e60-8e42-11ea-89e3-63dbfd3ff74b",
+    "status": 200,
+    "responseTime": 0.331795696,
+    "bytesWritten": 1875,
+    "headers": {
+      "Content-Type": ["application/json"],
+      "Correlation-Id": [
+        "9a9197c0-8e42-11ea-89e3-63dbfd3ff74b:a9602e60-8e42-11ea-89e3-63dbfd3ff74b"
+      ]
+    },
+    "body": {
+      "some": "...LONG BODY"
+    }
+  },
+
+  // schedule-generator-service
+  {
+    "level": "info",
+    "ts": 1587737512.9117246,
+    "caller": "cmd/main.go:63",
+    "msg": "Server components: &{Storage:0xc0001341e0 Router:0xc00011f440 Log:0xc0001265d0 Info:0xc000125e70 Environment:lle}",
+    "application": "schedule-generator-service",
+    "environment": "lle"
+  }
+]

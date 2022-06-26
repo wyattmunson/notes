@@ -1,0 +1,19 @@
+# VPC
+
+## NAT Gateway
+
+Usage: NAT gateway enables instances in private subnet to connect to the internet or other AWS resources, but prevents the internet from initiating a connection to said resources.
+
+* NAT gateway is always deployed in a public subnet
+
+## Internet Gateway
+
+Usage: Internet Gateway allows instances with public IPs to connect to the internet and vice versa.
+
+Route table for (XsubnetX? VPC?) needs to be updated to allow access to IGW.
+
+If a VPC does not have a IGW attached, it cannot be accessed from the internet, unless there's a
+
+* A subnet is public when attached to an IGW (via a route table)
+* Internet gateway is a logical device: it does not limit bandwidth.
+* NAT gateway provides connectivity for instances with no public IPs (and are not accessible from the internet)

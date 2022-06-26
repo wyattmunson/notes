@@ -1,0 +1,72 @@
+= APIs
+
+An API is a portal or the "language" (more accurately schema) you use to interact with and get data from another system or entity. They are the connection point between every service that talks to eachother. 
+
+The creator of the service that people want to interact with is responsible for creating the API for that service. They define what the API looks like. This is called "exposing" an API. 
+
+The requestor of an API is called the "consumer". They have to conform to the API definition and interact with the API in the way the creator specifies.
+
+
+== Understanding APIs by example
+
+=== The Problem
+
+Let's say you're a data scientist who wants to model Twitter data to predict flu outbreaks. To do this you'll need tweets. Additionally, you'll only want Tweets that contain keywords like "cold" or "sick" and that map to a specific location. 
+
+How do you request this data from Twitter? How does Twitter handle hundreds of thousands of people requesting Tweet data? Are they expected to respond to every e-mail, phone call, or fax?
+
+=== The Solution
+
+Twitter creates an API that says "if you want Twitter data you have to ask for it in this way and we'll return it to you in this way."
+
+An API is a portal, or a "language," in which people can interact or request data from another system. The API Specefication defines what the API looks like.
+
+NOTE: https://petstore.swagger.io/[Sample API Spec]
+
+The API Spec above is a Swagger Doc that shows all the API "endpoints" for an API. Swagger is a tool for generating API specs.
+
+=== Example User API 
+
+Let's says there's a users API: you pass it a user ID and it returns all the information about the user. The following example shows how two companies can different implement APIs that effectively accomplish the same thing.
+
+* Example 1
+** URL: `api-1.example.com/users`
+** Request Body: `{ userId: 1 }`
+* Example 2
+** URL: `api-2.example.com/users/1`
+** Request Body: _None_
+
+The two APIs accomplish the same task, but one uses a request body and the other gets all the data from the URL. The response bodies below also show how the data being return can vary wildly in format and content.
+
+Example 1 Response
+[source,json]
+====
+
+{
+    "userId": "1",
+    "firstName": "Greg",
+    "lastName": "Benish",
+    "location": "San Francisco, CA"
+}
+====
+
+Example 2 Response
+
+====
+{
+    "metadata": {
+        "page": 0,
+        "error": null
+    },
+    "user_id": "1",
+    "first_name": "Greg",
+    "last_name": "Benish",
+    "city": "San Francisco",
+    "state": "CA",
+    "create_date": "2021-10-15 15:63:08"
+}
+====
+
+== Vendor Lockin
+
+One consideration about building a custom integration around an API is how custom is truly is. 

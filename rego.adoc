@@ -1,0 +1,44 @@
+= Rego
+
+== Rego Examples
+
+99% of Rego statements are if conditions. 
+
+[source,rego]
+----
+allow {
+    input.method == "GET"
+}
+----
+
+Rego statements can be combined in a single policy.
+
+[source,rego]
+----
+allow {
+    input.method == "GET"
+}
+
+// OR operator between rules
+allow {
+    // AND operator within statements
+    input.method == "PATCH"
+    input.user.isAdmin == true
+}
+
+allow {
+    not input.user.email == "robin@harness.io"
+}
+----
+
+There is no need for explicit ANDs or ORs: 
+
+* The statements within the allow block are ANDed together
+* Use multiple rules for the OR operator
+* There is an explicity NOT operator
+
+### Collaboration and Packages
+
+Every policy in OPA is scoped to a package name. This is defined by the writer of the policy. Policies can be written to consume other packages. 
+
+Each team can create its own packages (`package secops`, `package developers`). 

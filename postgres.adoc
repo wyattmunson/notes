@@ -1,0 +1,218 @@
+= Postgres
+
+:toc: 
+
+== Postgres Conventions
+
+== `psql` CLI
+
+`psql` is a CLI front end for postgres. Use it to describe databases and tables or run SQL commands directly.
+
+=== Logging into `psql`
+
+----
+psql -U postgres
+psql -h localhost -U postgres -p 5432
+----
+
+=== Basic `psql` commands
+
+----
+[source,bash]
+# LISTING DATABASES
+# list databases
+\l
+# list database with additional info
+\l+
+
+# CONNECTING TO DATABASES
+# connect to database 'users'
+\c users
+# see current connection (auto connects to postgres if not connected)
+\c
+
+# TABLES
+# list tables
+\dt
+# list tables and sequences
+\d
+# list tables and sequences with additional info
+\d+
+# describe a table
+\d orders
+# describe table with add;t into
+\d+ orders
+# list a tables relations
+\dt orders
+# list schemas
+\dn orders
+\dn+ orders
+
+# quit shell
+\q
+
+# open text editors
+\e
+
+# see users
+\du
+
+CREATE USER username;
+----
+
+=== Using `psql` with schemas
+
+----
+[source,bash]
+# list schemas
+\dn
+
+# list table within a schema
+\dt schema_name.<TABLE NAME>
+
+# list all tables within a schema
+\dt schema_name.*
+
+# List all tables in all schemas
+\dt *.*
+
+# select data from a table in schema
+SELECT * FROM schema_name.table_name;
+----
+
+
+
+
+== Postgres Flavored SQL
+
+
+TIP: See all <<postgres-data-types,Postgres data types>>
+
+=== Creating tables
+
+[source,sql]
+----
+CREATE TABLE items (
+    item_id         SERIAL
+    item_name       VARCHAR(32),
+    -- case senitive column names need "double quotes"
+    "createDate"    TIMESTAMP
+);
+----
+
+==== Use sequences to set
+
+[source,sql]
+----
+
+
+----
+
+==== Foreign key references
+
+[source,sql]
+----
+CREATE TABLE independent_table (
+    tabel_id    SERIAL
+);
+
+CREATE TABLE dependent_table (
+    table_id    SERIAL
+    foreign_id  INTEGER REFERENCES independent_table (table_id)
+);
+----
+
+== Postgres Data Types
+
+[%header,cols="1,1,1,2"]
+|===
+| Category
+| Type
+| Syntax
+| Description
+
+| Boolean
+| Boolean
+| `BOOLEAN` or `BOOL`
+| `0`, `true`, `t`, `yes`, `y` evaluates to `true`. `1`, `false`, `f`, `no`, `n` 
+
+.3+| Charachter
+| Fixed length charachter
+| `CHAR(n)`
+| Fixed length string. Strings less than `n` are padded with spaces.
+
+| Variable length charachter
+| `VARCHAR(n)`
+| Variable length string. Limited to up to `n` charachters.
+
+| Variable length charachter
+| `TEXT`
+| Variable length string. Unlimited length.
+
+.3+|  Integers
+| Small Integer
+| `SMALLINT`
+| 2-byte signed integer -32,768 to 32,767
+
+| Integer
+| `INTEGER`
+| 4-byte singed integer from -2,147,483,648 to 2,147,483,647
+
+| Serial
+| `SERIAL`
+| Similar to integer, but Postgres will automatically generate and populate the value.
+
+.3+|  Float
+| Float
+| `FLOAT(n)`
+| Floating-point number with precision of `n`. Maximum of 8 bytes.
+
+| Float
+| `INTEGER`
+| 4-byte floating point number
+
+| Float
+| `numeric` or `numeric(s,p)`
+| Real number with `p` digits and `s` number after the decimal place.
+
+.5+| Time and Date
+| Date
+| `DATE`
+| Date only.
+
+| Time
+| `TIME`
+| Time only.
+
+| Timestamp
+| `TIMESTAMP`
+| Time and date.
+
+| Timestamp with timezone
+| `TIMESTAMP WITH TIME ZONE`
+| Time and date with timezone.
+
+| Interval
+| `INTERVAL`
+| Period of time.
+
+| UUID
+| UUID
+| `UUID`
+| RFC 4122 compliant UUIDs.
+
+.2+| JSON
+| JSON
+| `JSON`
+| Plain JSON types that require for each processing.
+
+| JSONB
+| `JSONB`
+| Plain JSON types that are faster to process but slower to insert. Supports indexing.
+
+| Array
+| Array
+| `???`
+| Plain JSON types that are faster to inster but slower to insert. Supports indexing.
+
+|===
