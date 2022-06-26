@@ -1,6 +1,13 @@
 # Git
 
-## Git Commands
+- [Git CLI commands](#git-cli-commands)
+  - [Initial repository setup](#initial-repository-setup)
+  - [Branches](#branches)
+  - [Git Config](#git-config)
+  - [Remotes](#remotes)
+  - [Tag Commit](#tag-commit)
+
+## Git CLI commands
 
 ```bash
 # see current branch and file status
@@ -18,7 +25,7 @@ git push -u REMOTE_NAME BRANCH_NAME
 git push -u origin main
 ```
 
-### Git command reference
+### Branches
 
 ```bash
 # see current branches
@@ -28,7 +35,7 @@ git branch -vv
 
 ```
 
-### Addiing initial repository
+### Initial repository setup
 
 ```bash
 git init
