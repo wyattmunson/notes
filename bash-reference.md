@@ -4,7 +4,7 @@
 | ----------------------------------------------- | ------------------------------- | --------------------------------------------------------- |
 | [cat](#cat---concatenate)                       | concatenate                     | Display contents of text file; combine multiple files.    |
 | [cd](#cd---change-directory)                    | change directory                | Traverse the directory tree and move to different folders |
-| [cp](#cp---copy)                                | copy                            | Copy files or directory                                   |
+| [cp](#cp---copy)                                | copy                            | Copy files or directories                                 |
 | [curl](#curl---client-url)                      | curl                            | HTTP utility                                              |
 | [cut](#curl---cut)                              | cut                             |                                                           |
 | [dig](#dig---domain-information-grouper)        | domain information grouper      | Show DNS information for a URL                            |
@@ -14,9 +14,12 @@
 | [grep](#grep---global-regular-expression-print) | global regular expression print | Use regex to find files                                   |
 | [kill](#kill-command)                           | kill                            | Stop a running process                                    |
 | [ls](#ls---list)                                | list                            | List contents of a directory                              |
+| [lsof](#lsof---list-open-files)                 | list open files                 | See running processes, check ports                        |
 | [mkdir](#mkdir---make-directory)                | mkdir                           | Create a directory                                        |
 | [ps](#ps---process-status)                      | ps                              | See status of running process                             |
 | [pwd](#pwd---print-working-directory)           | print working directory         | Show current directory                                    |
+| [sudo](#sudo---super-user-do)                   | super user do                   | Elevates a command to super user privileges               |
+| [scp](#scp---secure-copy)                       | secure copy                     | Securely copy file between hosts                          |
 | [sed](#sed---stream-editor)                     | stream editor                   | Edit a text stream                                        |
 | [ssh](#ssh---openssh-client)                    | ssh                             | HTTP utility                                              |
 | [tail](#tail-command)                           | tail                            | Print the end of a file                                   |
@@ -29,18 +32,28 @@
 
 Intended to combine or concatenate multiple text files into one. Used for a variety of things, like the simple `cat filename.txt` to print out a files contents.
 
-```bash
-# print out contents of file to terminal
-$ cat file
+Use `cat` to print out contents of file to terminal:
 
-# Use the more or less command to print out one page at a time
+```bash
+$ cat FILE_NAME
+$ cat log.txt
+```
+
+Use the more or less command to print out one page at a time:
+
+```bash
 $ cat file | more
 $ cat file | less
+```
 
-# combine multiple files
-$ cat file1 file2 > megaFile
-$ cat * > monsterFile
+Use `cat` to combine multiple files:
 
+```bash
+# combine file1 and file2 into megaFile.txt
+$ cat file1 file2 > megaFile.txt
+
+# combine all files in current directory to monsterFile.txt
+$ cat * > monsterFile.txt
 ```
 
 ## `cd` - Change Directory
@@ -59,6 +72,9 @@ $ cd lounge-frontend/       # move into "lounge-frontend"
 
 $ cd ..                     # move up one directory
 # pwd /users/benish/code
+
+$ cd -                      # return to previous directory
+# pwd /users/benish/code/lounge-frontend
 ```
 
 ## `chmod` - CHange MODe
@@ -117,34 +133,32 @@ chmod u+x,g= FILE_NAME
 - `x` - execute - 1
 - No permission - 0
 
-To combine permission, add the value for each permission:
+To combine permissions, add the value for each permission:
 
 ```
-Read (4) + Write (2) + Execute (1) = 7
-Read (4) + Execute (1) = 5
+Read (4) + Write (2) + Execute (1) => 7
+Read (4) + Execute (1)             => 5
+Read (4)                           => 4
 ```
 
-Permissions given in a three digit code.
+Permissions given in a three digit code. The permission type(s) like read or execute are denoted by the value. The position of each digit refers to the three linux user group.
 
 ```bash
 chmod 123 FILE_NAME
-
-# 1 = file owner (u)
-# 2 = group (g)
-# 3 = all other users (o)
+      ^^^
+      |||_  all other users (o)
+      ||__  group (g)
+      |___  file owner
 ```
 
 **Use `chmod` with numeric method**:
 
 ```bash
-# give file owner
+# give file owner - read, write, execute; group - read, write; all other users - read
 chmod 764 FILE_NAME
 
-# remove group permissions to write to file
-chmod g-w FILE_NAME
-
-# add execute to file owner, remove all permissions from group
-chmod u+x,g= FILE_NAME
+# give all permissions to all groups
+chmod 777 FILE_NAME
 ```
 
 ## `cp` - CoPy
@@ -158,22 +172,34 @@ cp fileName ../otherDirectory
 cp someDirectory/* anotherDirectory/
 ```
 
-Copy a file - copies content of `file1` to `file2`. Creates file2 if it doesn't exist, overwrites it if it does.
+### Copy a file
+
+Copies content of `file1` to `file2`. Creates file2 if it doesn't exist, overwrites it if it does.
 
 ```bash
 cp file1 file2
 ```
 
-Copy files to a directory - overwrites contents of directory if it exits, creates one if it does not. Can supply 1..n files.
+### Copy files to a directory
+
+Overwrites contents of directory if it exits, creates one if it does not. Can supply 1..n files.
 
 ```
 cp file1 file2 file3 targetDirectory
 ```
 
-Copy directories - copies entire contents of source directory to target directory. Creates or overwrites contents in target. Usually needs to be run recursively with the `-r` option.
+### Copy directories
 
-```
+Copies entire contents of source directory to target directory. Creates or overwrites contents in target. Usually needs to be run recursively with the `-r` option.
+
+```bash
 cp -R sourceDirectory targetDirectory
+```
+
+### Copy and preserve timestamp
+
+```bash
+cp -p file1 file2
 ```
 
 Other `cp` commands
@@ -216,6 +242,46 @@ curl -sILk google.com
 
 ## `cut` - CUT
 
+Cut stuff.
+
+### Cut by Field
+
+Cut by field using the `-f` flag. The default delimeter is TAB.
+
+```bash
+# sales.txt
+2022-20-11  11:34   134.23      Electronics
+2022-20-10  10:23   500.34      Appliances
+```
+
+Use `cut` to extract the first and third column:
+
+```bash
+$ cut sales.txt -f 1,3
+
+# output
+2022-20-11  134.23
+2022-20-10  500.34
+```
+
+Display first through thrid field:
+
+```bash
+$ cut sales.txt -f -3
+
+# output
+2022-20-11  11:34   134.23
+2022-20-10  10:23   500.34
+```
+
+### Cut with a Delimeter
+
+Use the `-d` flag to specify a delimeter.
+
+```bash
+cut sales.txt -d ":" -f 1,2
+```
+
 ## `dig` - Domain Information Grouper
 
 Get information about DNS name servers. Commonly used to see what domain names resolve to.
@@ -225,28 +291,16 @@ Get information about DNS name servers. Commonly used to see what domain names r
 $ dig github.com
 
 # results
-# ; <<>> DiG 9.10.6 <<>> github.com
-# ;; global options: +cmd
-# ;; Got answer:
-# ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47887
-# ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
 #
-# ;; OPT PSEUDOSECTION:
-# ; EDNS: version: 0, flags:; udp: 512
-# # What was queried (the defult query is for an Internet Address [A])
-# ;; QUESTION SECTION:
-# ;github.com.			IN	A
+# ...
 #
-# # "Answer" - IP of where to find github.com
 # ;; ANSWER SECTION:
 # github.com.		42	IN	A	140.82.113.3
 #
-# # statistics about the query
-# ;; Query time: 28 msec
-# ;; SERVER: 2001:558:feed::1#53(2001:558:feed::1)
-# ;; WHEN: Sat Nov 09 21:12:49 EST 2019
-# ;; MSG SIZE  rcvd: 55
+# ...
 ```
+
+Use the `ANSWER SECTION` to see the DNS records of the search. If there are no answers, the requested DNS record could not be found or does not exist.
 
 ```bash
 # quick dig
@@ -276,6 +330,19 @@ Request different types of records
 - NS = Name Server
 
 ### `export` - EXPORT
+
+Mark variables and functions to be passed to child shells and processes.
+
+Export a variable:
+
+> Bash variables are capatalized by convention.
+
+```bash
+export VARIABLE_NAME=VARIABLE_VALUE
+export NODE_VERSION=14
+```
+
+Get text from file and insert into new file:
 
 ```bash
 export VERSION=`grep '"version":' package.json | cut -d\" -f4`
@@ -348,6 +415,12 @@ ls | grep *report.txt
 ls | grep *report*
 ```
 
+### Get count of matching keyword
+
+```bash
+grep -c "keyword" log.txt
+```
+
 ## `kill` command
 
 Stop a process by process ID.
@@ -415,6 +488,47 @@ ls -lah
   -i
 ```
 
+## `lsof` - LiSt Open Files
+
+Use it to check if a process is running on a given port.
+
+```bash
+lsof -i :5432
+```
+
+`lsof` may be in `/usr/sbin` and needs to be invoked directly (`/usr/sbin/lsof -i :5432`).
+
+## `sudo` - Super User DO
+
+`sudo` allows a user to execute a command as the superuser or another user, within the specified security policy.
+
+```bash
+sudo COMMAND
+sudo rm -rf /data
+```
+
+More:
+
+```bash
+# add a new user
+sudo useradd
+
+# create password for new user
+sudo passwd
+
+# add to a group
+sudo groupadd
+
+# delete user
+sudo userdel
+
+# delete group
+sudo groupdel
+
+# add user to a primary group
+sudo usermod -g
+```
+
 ## `man` - MANual
 
 Show manual page for a given command. Use to show the manual for any bash command.
@@ -431,9 +545,28 @@ Creates a directory
 ```bash
 mkdir DIRECTORY_NAME
 mkdir some directory
+
+# copy subdirectories
+-p
 ```
 
 ## `ps` - Process Status
+
+Use to see running processes.
+
+```bash
+# show running terminal sessions
+ps
+```
+
+### Show all running processes
+
+```bash
+ps aux
+
+# use grep to find process by keyword
+ps aux | grep keyword
+```
 
 ```bash
 # check if a process is running
@@ -447,6 +580,15 @@ Displays the current directory you're in.
 ```bash
 $ pwd
 ↪ /home/greg/documents
+```
+
+## `scp` - Secure CoPy
+
+Secure copy is used to securely transfer files from one host to another.
+
+```bash
+scp -i SOURCE TARGET
+scp -i /home/file.txt user@host:/app/data/file.txt
 ```
 
 ## `sed` - Stream EDitor
@@ -566,6 +708,8 @@ echo '"text"' | xargs
 
 Redirects the output of standard output (stdout) and writes it to a given file. If the file exists, it's overwritten.
 
+Redirect standard output to a file:
+
 ```bash
 # list current directory and write results to file_directory.txt
 ls > file_directory.txt
@@ -581,7 +725,7 @@ Different types of output
 | 1      | Standard output | `stdout`     |
 | 2      | Standard error  | `stderr`     |
 
-With the `>` operator, standard output (`1`) is assumed.
+With the `>` operator, standard output (`1`) is assumed. Using `>` is the same as `1>`.
 
 ### Redirect Standard Error
 
@@ -591,12 +735,41 @@ Use `2>` to redirect `stderr`:
 command 2> /dev/null
 ```
 
-### Redirect Standard Error and Standard Output`
+### Redirect Standard Error and Standard Output
 
-Use `>&` to redirect `stderr` and `stdout`:
+Use `&>` to redirect `stderr` and `stdout`:
 
 ```bash
-command >& /dev/null
+command &> /dev/null
+```
+
+In Bash, `&>` is the same as `>&`; however, the former is preferred.
+
+More complex solutions achieve the same results
+
+```bash
+command >file 2>&1
+```
+
+What happened:
+
+- The first redirection `>file` prints `stdout` to `file`
+- The second redirection `2>&1` duplicates file descriptor `2` to be the same as `1`
+
+### Discard Output of Command
+
+```bash
+command > /dev/null
+```
+
+The location `/dev/null` immediately deletes all data written to it. Also known as the "bit bucket."
+
+Discard output of stdout and stderr:
+
+```bash
+command &> /dev/null
+# OR
+command >/dev/null 2>&1
 ```
 
 ## `>>` - Redirect Output Append Operator
@@ -648,3 +821,5 @@ Use `ls` to print directory contents and use `grep` to find matching regex patte
 # show files names that match "2004"
 ls | grep 2004
 ```
+
+https://catonmat.net/bash-one-liners-explained-part-three
