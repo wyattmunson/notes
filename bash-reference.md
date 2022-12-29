@@ -1,27 +1,29 @@
 # Full Bash reference
 
-- [cat](#cat---concatenate)
-- [cd](#cd---change-directory)
-- [cp](#cp---copy)
-- [curl](#curl---client-url)
-- [cut](#curl---cut)
-- [dig](#dig---domain-information-grouper)
-- [file](#file-command)
-- [echo](#echo-command)
-- [export](#export---export)
-- [grep](#grep---global-regular-expression-print)
-- [kill](#kill-command)
-- [ls](#ls---list)
-- [mkdir](#mkdir---make-directory)
-- [ps](#ps---process-status)
-- [pwd](#pwd---print-working-directory)
-- [sed](#sed---stream-editor)
-- [ssh](#ssh---openssh-client)
-- [tail](#tail-command)
-- [touch](#touch-command)
-- [type](#type-command)
-- [xargs](#xargs)
-- [Redirect Operators](#redirect-operators) -
+| Command                                         | Name                            | Description                                               |
+| ----------------------------------------------- | ------------------------------- | --------------------------------------------------------- |
+| [cat](#cat---concatenate)                       | concatenate                     | Display contents of text file; combine multiple files.    |
+| [cd](#cd---change-directory)                    | change directory                | Traverse the directory tree and move to different folders |
+| [cp](#cp---copy)                                | copy                            | Copy files or directory                                   |
+| [curl](#curl---client-url)                      | curl                            | HTTP utility                                              |
+| [cut](#curl---cut)                              | cut                             |                                                           |
+| [dig](#dig---domain-information-grouper)        | domain information grouper      | Show DNS information for a URL                            |
+| [file](#file-command)                           | file                            | Display file type                                         |
+| [echo](#echo-command)                           | echo                            | Print output to the terminal                              |
+| [export](#export---export)                      | export                          | Export a variable                                         |
+| [grep](#grep---global-regular-expression-print) | global regular expression print | Use regex to find files                                   |
+| [kill](#kill-command)                           | kill                            | Stop a running process                                    |
+| [ls](#ls---list)                                | list                            | List contents of a directory                              |
+| [mkdir](#mkdir---make-directory)                | mkdir                           | Create a directory                                        |
+| [ps](#ps---process-status)                      | ps                              | See status of running process                             |
+| [pwd](#pwd---print-working-directory)           | print working directory         | Show current directory                                    |
+| [sed](#sed---stream-editor)                     | stream editor                   | Edit a text stream                                        |
+| [ssh](#ssh---openssh-client)                    | ssh                             | HTTP utility                                              |
+| [tail](#tail-command)                           | tail                            | Print the end of a file                                   |
+| [touch](#touch-command)                         | touch                           | Create a file                                             |
+| [type](#type-command)                           | type                            | See file or directory type                                |
+| [xargs](#xargs)                                 | xargs                           | Yarr                                                      |
+| [Redirect Operators](#redirect-operators)       | Redirect                        |                                                           |
 
 ## `cat` - ConcATenate
 
