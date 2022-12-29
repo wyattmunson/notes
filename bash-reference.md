@@ -7,17 +7,21 @@
 - [cut](#curl---cut)
 - [dig](#dig---domain-information-grouper)
 - [file](#file-command)
+- [echo](#echo-command)
 - [export](#export---export)
-- [kill](#kill---kill-command)
+- [grep](#grep---global-regular-expression-print)
+- [kill](#kill-command)
 - [ls](#ls---list)
+- [mkdir](#mkdir---make-directory)
 - [ps](#ps---process-status)
 - [pwd](#pwd---print-working-directory)
 - [sed](#sed---stream-editor)
 - [ssh](#ssh---openssh-client)
-- [tail](#tail---tail-command)
-- [touch](#touch---touch)
+- [tail](#tail-command)
+- [touch](#touch-command)
 - [type](#type-command)
 - [xargs](#xargs)
+- [Redirect Operators](#redirect-operators) -
 
 ## `cat` - ConcATenate
 
@@ -300,7 +304,49 @@ file -s /dev/sda5
 
 ```
 
-## `kill` - `kill` command
+## `echo` command
+
+Prints text to the terminal window.
+
+```bash
+$ echo some text
+↪ some text
+```
+
+## `grep` - Global Regular Expression Print
+
+Search a file to see if it contains a phrase.
+
+```bash
+grep SEARCH_TEXT FILE_NAME
+grep phrase log.txt
+```
+
+Case insensitive search:
+
+```bash
+grep -i "phrase"
+```
+
+Search current directory and all subdirectories:
+
+```bash
+grep -R "phrase" .
+```
+
+Commands can be "piped in" to grep using the `|` operator.
+
+```bash
+# display only matching files
+ls | grep SEARCH_TEXT
+ls | grep log.txt
+
+# use wildcards
+ls | grep *report.txt
+ls | grep *report*
+```
+
+## `kill` command
 
 Stop a process by process ID.
 
@@ -325,30 +371,64 @@ $ kill -l
 
 ## `ls` - LiSt
 
-List
+List contents of a directory.
+
+List current directory:
 
 ```bash
-
-# list current directory
 ls
-# list relative directory
-ls var/
+```
+
+List a specified directory:
+
+```bash
+ls DIRECTORY
+ls /local/usr/bin
+```
+
+`ls` flags:
+
+```bash
+ls -l
+ls -lah
 
 # flags
   # list/table view with date, ownership, and size
   -l
-  # list hidden files like .git
+  # list hidden files like .git (starting with a dot ".")
   -a
-  # list
+  # human readable file sizes
+  -h
+  # list subdirectories
+  -R
+  # order by last modified
+  -t
+  # order by file size
+  -lS
+  # list in reverse order (combine with other commands)
+  -r
+  # show directories with "/" and executables with "*"
+  -F
+  # display inode number of file or directory
+  -i
+```
 
+## `man` - MANual
 
-# calculate APR
-let apr = current_balance * 0.12
+Show manual page for a given command. Use to show the manual for any bash command.
 
-let apr = current_balance * 01.2
+```bash
+man COMMAND
+man ls
+```
 
-# the misplaced decimal in the bottom example changed the interest rate from 12% to 120%
+## `mkdir` - MaKe DIRectory
 
+Creates a directory
+
+```bash
+mkdir DIRECTORY_NAME
+mkdir some directory
 ```
 
 ## `ps` - Process Status
@@ -384,7 +464,7 @@ Remote login program
 $ ssh -i keyName.pem ec2-user@whatever.amazonaws.com
 ```
 
-## `tail` - tail command
+## `tail` command
 
 Displays content of files; prints the last 10 lines of a file by default.
 
@@ -414,7 +494,7 @@ tail -b 50 FILE_NAME
 tail -c 50 FILE_NAME
 ```
 
-## `touch` - TOUCH
+## `touch` command
 
 Touch command creates a new file.
 
@@ -476,4 +556,93 @@ Can remove quotes form a
 ```bash
 echo '"text"' | xargs
 ↪ text
+```
+
+# Redirect Operators
+
+## `>` - Redirect Output Operator
+
+Redirects the output of standard output (stdout) and writes it to a given file. If the file exists, it's overwritten.
+
+```bash
+# list current directory and write results to file_directory.txt
+ls > file_directory.txt
+```
+
+### Types of Output
+
+Different types of output
+
+| Number | Type            | Abbreviation |
+| ------ | --------------- | ------------ |
+| 0      | Standard input  | `stdin`      |
+| 1      | Standard output | `stdout`     |
+| 2      | Standard error  | `stderr`     |
+
+With the `>` operator, standard output (`1`) is assumed.
+
+### Redirect Standard Error
+
+Use `2>` to redirect `stderr`:
+
+```bash
+command 2> /dev/null
+```
+
+### Redirect Standard Error and Standard Output`
+
+Use `>&` to redirect `stderr` and `stdout`:
+
+```bash
+command >& /dev/null
+```
+
+## `>>` - Redirect Output Append Operator
+
+Redirects the output of standard output (stdout) and writes it to a given file. If the file exists, it's appended to the contents of the file.
+
+```bash
+# list current directory and write results to file_directory.txt
+ls >> file_directory.txt
+```
+
+### Redirect Standard Error and Standard Output`
+
+Use `&>>` to redirect `stderr` and `stdout`:
+
+```bash
+command &>> file.txt
+```
+
+## `<` - Regular Input Operator
+
+The input redirector pulls data in a stream from a given source.
+
+Take the given text file for example:
+
+```bash
+# states.txt
+California
+Alaska
+New York
+```
+
+Use above text file as input to `sort` command:
+
+```bash
+$ sort < states.txt
+Alaska
+California
+New York
+```
+
+## `|` - Pipe Operator
+
+Takes the output of a given program and redirects it as input for another program. This is known as "piping".
+
+Use `ls` to print directory contents and use `grep` to find matching regex pattern:
+
+```bash
+# show files names that match "2004"
+ls | grep 2004
 ```
