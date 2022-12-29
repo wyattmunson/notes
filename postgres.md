@@ -251,6 +251,22 @@ ALTER TYPE item_category ADD VALUE 'None';
 -- Use as column type
 ALTER TABLE items
 ADD "itemCategory" ITEM_CATEGORY;
+
+-- List enum values
+\dT+ ENUM_NAME
+\dT+ item_category
+```
+
+### Array Datatypes
+
+Column data types can be arrays
+
+```sql
+ALTER TABLE items
+ADD "itemList" TEXT[];
+
+INSERT INTO items ("itemList")
+VALUES ('{foo,bar}');
 ```
 
 ### Schemas
@@ -287,6 +303,34 @@ CREATE TABLE some_schema.some_table (
 | JSON          | `JSONB`                     | Plain JSON types that are faster to inster but slower to insert. Supports indexing.                |
 | Array         | `???`                       | Plain JSON types that are faster to inster but slower to insert. Supports indexing.                |
 
+# Assorted Troubleshooting
+
+## Delete `postmaster.pid` on certain hard restarts
+
+> Do not blindly delete the `postmaster.pid` file! This can cause data corruption and loss.
+
+The `postmaster.pid` file points to the process ID running Postgres. 
+
+If the computer crashes the `postmaster.pid` may not get cleaned up and point to an old process Id. The existance of this file will prevent Postgres from starting again and may need to be deleted if the process it's referencing is confirmed to be outdated.
+
+### Check Porcess ID
+
+```bash
+# inspect postmaster.pid
+# this location may be different
+cat /opt/homebrew/var/postgres/postmaster.pid
+
+# check processes with that process id
+lsof | grep PROCESS_ID
+lsof | grep 1023
+```
+
+The top line of the `postmaster.pid` file should refer to the process id. Use `lsof` and `grep` to check that process id.
+
+No processes may be associated with that process id, confirming the process id is outdated.
+
+If processes return, verify they are unrelated to Postgres. The process id may have been reassigned to a new, unrelated process, confirming the `postmaster.pid` file is outdate and can be deleted.
+
 # Running Postgres
 
 ## Commands
@@ -296,3 +340,13 @@ CREATE TABLE some_schema.some_table (
 ps auxwww | grep postgres
 
 ```
+
+## Install Location
+
+Install location with Homebrew on new M1 Macs: `/opt/homebrew/var/postgres`.
+
+Otherwise may be located in `/usr/local/var/postgres`.
+
+## Log Location
+
+New Homebrew installations in M1 Macs: `/opt/homebrew/var/log/postgres.log`

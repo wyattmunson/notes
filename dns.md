@@ -2,13 +2,25 @@
 
 Domain Name System
 
-It's the phone book of the internet. Don't know what a phonebook is? It's what a glacier will be for your children.
+It's the phone book of the internet. It translates human friendly domain names, e.g., `www.exmaple.com`, to computer friendly addresses like `192.168.1.1`.
 
 ## Basic Overview
 
-### What is DNS?
-
 Domain names (like `github.com`) are made for humans. They're nice and easy for us to use and remember. Websites, however, live at IP addresses (like `140.82.114.4`), which are not easy to remember. DNS is the system that tells the browser to fetch `140.82.114.4` when the user requests `github.com`.
+
+- DNS is distributed
+- DNS is hierarchical
+
+## DNS Record Types
+
+| Type  | Name               | Description                                               |
+| ----- | ------------------ | --------------------------------------------------------- |
+| A     | A Record           | Points domain name to IP address                          |
+| AAAA  | AAAA Record        | Points domain name to IPv6 address                        |
+| CNAME | Canonical name     | Points domain name to another domain name                 |
+| NS    | Nameserver         | Specifies the authoritative DNS server for a given domain |
+| MX    | mail exchange      | Specifies where emails for a domain should be routed to   |
+| SOA   | Start of Authority | Stores admin information about a domain                   |
 
 ## Basic overview of DNS for website resolution
 

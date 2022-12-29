@@ -299,12 +299,20 @@ The takeaway: 32-bit computers are only capabile of handling a limited amount of
 - [cd](#cd---change-directory)
 - [cp](#cp---copy)
 - [curl](#curl---client-url)
+- [cut](#curl---cut)
 - [dig](#dig---domain-information-grouper)
 - [file](#file-command)
+- [export](#export---export)
 - [kill](#kill---kill-command)
+- [ls](#ls---list)
+- [ps](#ps---process-status)
+- [pwd](#pwd---print-working-directory)
 - [sed](#sed---stream-editor)
 - [ssh](#ssh---openssh-client)
+- [tail](#tail---tail-command)
+- [touch](#touch---touch)
 - [type](#type-command)
+- [xargs](#xargs)
 
 ### `cat` - ConcATenate
 
@@ -340,6 +348,92 @@ $ cd lounge-frontend/       # move into "lounge-frontend"
 
 $ cd ..                     # move up one directory
 # pwd /users/benish/code
+```
+
+### `chmod` - CHange MODe
+
+Changes file permissions: who can read, write, and execute the file.
+
+```bash
+chmod +x FILE_NAME
+chmod 744 FILE_NAME
+```
+
+The file permissions can be specified with either the symbolic or numeric method.
+
+**Symobilc Method**
+
+Symbolic method uses letters to refer to the groups and permissions, e.g., `g+x`.
+
+Groups:
+
+- `u` - file owner (user)
+- `g` - group, users in the same linux group
+- `o` - all other users
+- `a` - all users (`u`, `g`, `o`)
+
+Attachments:
+
+- `+` - add specified permission
+- `-` - remove specified permission
+- `=` - change current permission to specified permission (if no permissions are specified, all permissions are removed)
+
+Permissions:
+
+- `r` - read
+- `w` - write
+- `x` - execute
+
+**Use `chmod` with symbolic method**:
+
+```bash
+# give file owner execute permissions
+chmod u=x FILE_NAME
+
+# remove group permissions to write to file
+chmod g-w FILE_NAME
+
+# add execute to file owner, remove all permissions from group
+chmod u+x,g= FILE_NAME
+```
+
+#### Numeric Method
+
+The numeric method uses numbers to identify permissions and their position to identify the linux user, e.g., `744`.
+
+- `r` - read - 4
+- `w` - write - 2
+- `x` - execute - 1
+- No permission - 0
+
+To combine permission, add the value for each permission:
+
+```
+Read (4) + Write (2) + Execute (1) = 7
+Read (4) + Execute (1) = 5
+```
+
+Permissions given in a three digit code.
+
+```bash
+chmod 123 FILE_NAME
+
+# 1 = file owner (u)
+# 2 = group (g)
+# 3 = all other users (o)
+```
+
+**Use `chmod` with numeric method**:
+
+```bash
+# give file owner
+chmod 764 FILE_NAME
+
+# remove group permissions to write to file
+chmod g-w FILE_NAME
+
+# add execute to file owner, remove all permissions from group
+chmod u+x,g= FILE_NAME
 ```
 
 ### `cp` - CoPy
@@ -470,7 +564,7 @@ Request different types of records
 - MX = Mail eXchange (mail servers)
 - NS = Name Server
 
-### `export`
+### `export` - EXPORT
 
 ```bash
 export VERSION=`grep '"version":' package.json | cut -d\" -f4`
@@ -559,6 +653,15 @@ let apr = current_balance * 01.2
 ps auxwww | grep postgres
 ```
 
+### `pwd` - Print Working Directory
+
+Displays the current directory you're in.
+
+```bash
+$ pwd
+↪ /home/greg/documents
+```
+
 ### `sed` - Stream EDitor
 
 Sed is a stream editor for filtering and replacing text. Sed probably has a shit tonne of stuff going on, used commonly for REGEX string matching and replacement.
@@ -574,6 +677,72 @@ Remote login program
 
 ```
 $ ssh -i keyName.pem ec2-user@whatever.amazonaws.com
+```
+
+### `tail` - tail command
+
+Displays content of files; prints the last 10 lines of a file by default.
+
+```bash
+tail FILE_NAME
+```
+
+**Follow a file**: do not close tail when end of file is reached, but rather wait for additional input.
+
+```bash
+tail -f FILE_NAME
+
+# also check if file is renamed or rotated
+tail -F FILE_NAME
+```
+
+**Specify length**: specify amount of file returned in lines, blocks, or bytes.
+
+```bash
+# specify 50 lines
+tail -n 50 FILE_NAME
+
+# specify 50 blocks
+tail -b 50 FILE_NAME
+
+# specify 50 bytes
+tail -c 50 FILE_NAME
+```
+
+### `touch` - TOUCH
+
+Touch command creates a new file.
+
+```bash
+touch FILE_NAME
+```
+
+```bash
+# create multiple files
+touch FILE_NAME_1 FILE_NAME_2
+
+
+
+```
+
+**Full argument list**
+
+- `-A` Adjust access and modification timestamps of value with specified value.
+- `-a` Change access time of file. Modification time is not changed, unless `-m` flag also specified.
+- `-c` Do not create the file if it does not exist
+- `-d` Change access and modification times
+- `-h` If file has symbolic link, change time of the link itself, rather than the file the link points to. Using `-h` implies `-c` and will not create a new file.
+- `m` Change modification time of file. Access time is not changed unless `-a` is also specified.
+- `r` Use access and modification times from specified file instead of the current time of day.
+- `t` Change access and modification times to the specified time instead of the current time of day.
+
+```bash
+# Adjust access and modification timestamps of value with specified value
+touch
+
+# Change access time of file. Modification time is not changed, unless `-m` flag also specified.
+touch -a FILE_NAME
+
 ```
 
 ### `type` command

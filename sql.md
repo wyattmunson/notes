@@ -38,3 +38,37 @@ FROM table;
 - SQL Server - Microsoft's RDMS using tSQL, Microsoft's implementation of SQL
 - MySQL - open source, aquired by Oracle
 - MariaDB - fork of MySQL from 2009 when it was aquired by Oracle
+
+## Basic SQL
+
+### Create Table
+
+```sql
+CREATE TABLE table_name (
+    column datatype
+);
+```
+
+```sql
+CREATE TABLE students (
+    studentId   INT,
+    lastName    VARCHAR(255),
+    firstName   VARCHAR(255),
+    graduated   BOOLEAN
+);
+```
+
+### Drop Table
+
+```sql
+DROP TABLE table_name;
+```
+
+### Alter Table
+
+#### Add Column
+
+```sql
+ALTER TABLE table_name
+ADD     column_name datatype;
+```
