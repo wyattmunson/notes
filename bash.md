@@ -399,7 +399,7 @@ chmod u+x,g= FILE_NAME
 
 #### Numeric Method
 
-The numeric method uses numbers to identify permissions and their position to identify the linux user, e.g., `744`.
+> The numeric method uses numbers to identify permissions and their position to identify the linux user, e.g., `744`.
 
 - `r` - read - 4
 - `w` - write - 2
