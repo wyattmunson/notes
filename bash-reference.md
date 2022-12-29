@@ -18,6 +18,7 @@
 | [mkdir](#mkdir---make-directory)                | mkdir                           | Create a directory                                        |
 | [ps](#ps---process-status)                      | ps                              | See status of running process                             |
 | [pwd](#pwd---print-working-directory)           | print working directory         | Show current directory                                    |
+| [rm](#rm---remove)                              | remove                          | Removes files or directories                              |
 | [sudo](#sudo---super-user-do)                   | super user do                   | Elevates a command to super user privileges               |
 | [scp](#scp---secure-copy)                       | secure copy                     | Securely copy file between hosts                          |
 | [sed](#sed---stream-editor)                     | stream editor                   | Edit a text stream                                        |
@@ -502,6 +503,8 @@ lsof -i :5432
 
 `sudo` allows a user to execute a command as the superuser or another user, within the specified security policy.
 
+If a command fails because of insufficient prviledges, the `sudo` command can help. This does elevate permissions and should be used with caution.
+
 ```bash
 sudo COMMAND
 sudo rm -rf /data
@@ -580,6 +583,21 @@ Displays the current directory you're in.
 ```bash
 $ pwd
 ↪ /home/greg/documents
+```
+
+## `rm` - ReMove
+
+Delets a file or directory.
+
+```bash
+rm FILE_NAME
+rm file.txt
+
+# remove directory
+rm -r directory_name
+
+# force remove file
+rm -f file_name
 ```
 
 ## `scp` - Secure CoPy
