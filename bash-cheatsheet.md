@@ -104,25 +104,48 @@ mv foo/* .
 Rsync to move.
 
 ```bash
-Local to Local:  rsync [OPTION]... [SRC]... DEST
-Local to Remote: rsync [OPTION]... [SRC]... [USER@]HOST:DEST
-Remote to Local: rsync [OPTION]... [USER@]HOST:SRC... [DEST]
+# local to local
+rsync [OPTIONS] SOURCE TARGET
+# local to remote (push)
+rsync [OPTIONS] SOURCE USER@HOST:TARGET
+# remote to local (pull)
+rsync [OPTIONS] USER@HOST:SOURCE TARGET
 
-# archive mode - sync recursively
-rsync -a
+# basic usage
+rsync -a /source/foo/ /target/foo/
 
-# force compression to send to destination machine
-rsync -z
-rsync --compress
+# flags
+  -a          # archive mode - sync recursively
+  -z          # force compression to send to destination machine
+  --compress  # alternate for force compression
+  -P          # progress bar and keep partially transferred files
+  -q          # quiet to supress non-error messages
+  --quiet     # alternate for quiet mode
+  -v          # verbose
+  -h          # human readable output
 
-# progress bar and keep partially transferred files
-rsync -P
-
-# quiet to supress non-error messages
-rsync -q
-rsync --quiet
-
-
+# copy local source to remote target
+rsync -a /foo/ user@remote_host:/foo/
+# copy from remote source to local target
+rsync -a user@remote_hostname:/foo/ /foo/
+# use for large transfers and/or unstable internet connections
+rsync -aP source target
+# exclude "directory" and "another_dir"
+rsync -a --exclude=directory --exlucde=another_dir source target
+# include json files and no others
+rsync -ae ssh --include="*.json" --exlucde="*" source target
+# delete files that are not in source directory
+rsync -a --delete source target
+# rsync over ssh
+rsync -ae ssh user@remote_hostname:/foo/ /foo/
+# SSH other than port 22
+rsync -a -e "ssh -p 123" /source/ user@remote_hostname:/target/
+# specify max file size for transfer
+rsync -a --max-size="200k" source target
+# do dry run
+rsync --dry-run --remove-source-files -v source target
+# set bandwidth limit
+rsync --bw-limit=100 -a source target
 ```
 
 ### Copying a file
@@ -181,7 +204,7 @@ less FILE_NAME
 
 ```bash
 # seach for file or dir at current dir and all subdirs
->>> find . -name NAME TYPE
+find . -name NAME [TYPE]
 
 # print out directory tree structure
 tree
@@ -194,6 +217,18 @@ tree
 ln -s FILE_NAME LINK
 # check where symbolic link points to
 readlink FILE_NAME
+```
+
+### Check file type
+
+```bash
+file FILE_NAME
+file package.json
+
+# use file_list.txt to read file names (separated by line)
+file -f file_list.txt
+# check inside compressed files
+file -z file_name
 ```
 
 ## Text
