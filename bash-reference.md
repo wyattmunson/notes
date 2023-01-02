@@ -29,6 +29,12 @@
 | [xargs](#xargs)                                 | xargs                           | Yarr                                                      |
 | [Redirect Operators](#redirect-operators)       | Redirect                        |                                                           |
 
+## Syntax Reference
+
+```bash
+command ARGUMENT [OPTIONS] [FILE_NAME...]
+```
+
 ## `cat` - ConcATenate
 
 Intended to combine or concatenate multiple text files into one. Used for a variety of things, like the simple `cat filename.txt` to print out a files contents.
@@ -214,31 +220,78 @@ $ cp -i s.txt f.txt # interactive - promt before overwriting
 Transfer an URL.
 
 ```bash
+curl https://google.com
+
+# download file and set name to file_name
+curl https://google.com --output file_name
+curl https://google.com -o file_name
+# download file and use same file name
+curl https://google.com -O
+
+# silence output
+curl https://google.com --silent
+curl https://google.com -s
+
+# follow a location (instead of returning redirect)
+curl --location https://google.com
+```
+
+```bash
 # download file
-`curl -O https://site.com/dowload/linux-amd64.tar.gz`
+curl -O https://example.com/dowload/linux-amd64.tar.gz
     # -O: save file locally with same name as remote file
     # -L: follow redirects (if first response is 3xx)
+```
 
-# make executable?
-chmod +x ./chartmuseum
+### Usename and password authentication
 
-# move to something on the path?
-mv ./chartmuseum /usr/local/bin
+```bash
+# username/password authentication
+curl http://user:password@example.com/
+# OR
+curl -u user:password http://example.com/
 ```
 
 ### HTTP POST request
 
 ```bash
-# Authenticate and request bearer token
-curl -X POST "http://local.magento/index.php/rest/V1/integration/admin/token" \
+# curl POST using application/json
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"key":"value","key":"value"}' \
+  http://example.com/api
+
+# curl POST using application/json (alternate flags)
+curl -X POST "http://example.com" \
 -H "Content-Type:application/json" \
 -d '{"username":"admin", "password":"magentorocks1"}'
+
+# curl POST using application/x-www-form-urlencoded
+curl --data "birthyear=1905&press=%20OK%20" http://example.com/api
 ```
 
 ### See redirect path
 
 ```bash
 curl -sILk google.com
+```
+
+### Certificates
+
+```bash
+# Certificates
+curl --cert mycert.pem https://secure.example.com
+
+# use your own CA cert store to verify server's certificate
+curl --cacert ca-bundle.pem https://example.com/
+
+# ignore certificate verification
+curl --insecure https://secure.example.com
+# OR
+curl -k https://secure.example.com
+
+# curl resolve (point to different address for a hostname)
+curl --resolve www.example.org:80:127.0.0.1 http://www.example.org/
 ```
 
 ## `cut` - CUT

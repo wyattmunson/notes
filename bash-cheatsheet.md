@@ -1,5 +1,7 @@
 # Bash Cheatsheet
 
+- [File Commands](#file-commands)
+
 ## File Commands
 
 ### ls
@@ -7,75 +9,30 @@
 Use `ls` to list files and directories.
 
 ```bash
-# list current directory file contents
-ls
-
-# list specified direcotry's file contents
-ls /usr/local/bin
-
-# display all files, with metatadata, that is human readable
-ls -lah
-
-# flags
-  # list/table view with date, ownership, and size
-  -l
-  # list hidden files like .git (starting with a dot ".")
-  -a
-  # human readable file sizes
-  -h
-  # list subdirectories
-  -R
-  # order by last modified
-  -t
-  # order by file size
-  -lS
-  # list in reverse order (combine with other commands)
-  -r
-  # show directories with "/" and executables with "*"
-  -F
-  # display inode number of file or directory
-  -i
+ls        # list current directory files
+ls -lah   # show metadata and hidden files
+ls /dir   # list specified direcotry's file contents
 ```
 
-### cd
+### Changing directories
 
 ```bash
-$ pwd                       # print working directory - get current location
-↪ /users/benish/code
-
-$ ls                        # list out content of current directory
-↪ file.txt  lounge-frontend/  lounge-backend/
-
-$ cd lounge-frontend/       # move into "lounge-frontend"
-# pwd /users/benish/code/lounge-frontend
-
-$ cd ..                     # move up one directory
-# pwd /users/benish/code
-
-$ cd -                      # return to previous directory
-# pwd /users/benish/code/lounge-frontend
+pwd       # print working directory - get current location
+cd dir    # move into "dir" directory
+cd ..     # move up one directory
+cd -      # return to previous directory
+cd ~      # move to user's home directory
+cd /      # move to root directory
 ```
 
 ### Creating a file
 
 ```bash
-touch FILE_NAME
-
-# create file and open text editor
-vim FILE_NAME
-nano FILE_NAME
-
-# make temporary file in /tmp (deleted on next boot)
-mktemp -t FILE_NAME
-
-# create a directory
-mkdir DIRECTORY_NAME
-# delete a directory (fails if directory is not empty)
-rmdir DIRECTORY_NAME
-# delete directory and its contents
-rm -r DIRECTORY_NAME
-# force delete directory and its contents
-rm -rf DIRECTORY_NAME
+touch FILE      # create a file
+vim FILE        # create/open file in vim text editor
+nano FILE       # create/open file in nano text editor
+mktemp -t FILE  # make temp file in /tmp (deleted on boot)
+mkdir DIR       # create a directory
 ```
 
 ### Moving a file
@@ -117,10 +74,8 @@ rsync -a /source/foo/ /target/foo/
 # flags
   -a          # archive mode - sync recursively
   -z          # force compression to send to destination machine
-  --compress  # alternate for force compression
   -P          # progress bar and keep partially transferred files
   -q          # quiet to supress non-error messages
-  --quiet     # alternate for quiet mode
   -v          # verbose
   -h          # human readable output
 
@@ -175,6 +130,15 @@ rm -f file_name
 
 # display deletion status confirmation
 rm -v file_name
+
+# delete a directory (fails if directory is not empty)
+rmdir DIRECTORY_NAME
+# delete a non-empty directy (and its contents)
+rmdir -r DIRECTORY_NAME
+# delete directory and its contents
+rm -r DIRECTORY_NAME
+# force delete directory and its contents
+rm -rf DIRECTORY_NAME
 ```
 
 ### Reading a file
@@ -198,6 +162,9 @@ tail -f FILE_NAME
 
 more FILE_NAME
 less FILE_NAME
+
+# find differences in two files
+diff file_name1 file_name2
 ```
 
 ### Finding a file
@@ -219,7 +186,7 @@ ln -s FILE_NAME LINK
 readlink FILE_NAME
 ```
 
-### Check file type
+### Check file information
 
 ```bash
 file FILE_NAME
@@ -229,6 +196,9 @@ file package.json
 file -f file_list.txt
 # check inside compressed files
 file -z file_name
+
+# check file line count
+wc file_name
 ```
 
 ## Text
@@ -254,6 +224,17 @@ sed -i'.original' -e  "s,<SOMETHING_TO_FIND>,REPLACE_TEXT,g" someFile.txt
 ```bash
 brew install gnu-sed
 alias sed=gnu-sed
+```
+
+### Cutting
+
+```bash
+# cut 1 & 3rd field from file (Tab delimeted)
+cut file_name -f 1,3
+# cut up to 3rd field from file (Tab delimeted)
+cut file_name -f -3
+# specify alternate delimeter
+cut file_name -d ":" -f -3
 ```
 
 ## System Information
@@ -412,9 +393,11 @@ ls | grep *report*
 whereis command # show possible locations of "command"
 which command   # show default location of "command" to be used
 
-# see manual page for command
-man command
+# see manual page for grep
 man grep
+
+# measure execution time to run grep
+time grep
 ```
 
 ## Homebrew
@@ -498,4 +481,18 @@ brew cask reinstall CASK
 brew cask uninstall CASK
 # list all installed casks
 brew cask list
+```
+
+## Bash
+
+### Input and Output Redirection
+
+```bash
+cmd1 | cmd2 # pipe output of cmd1 to input of cmd2
+< file      # use standard input of a file
+> file      # redirect standard output to file
+>> file     # redirect standard output to file, (append)
+<> file     # use file as stdin and stdout
+&> file     # redirect stdout and stderr
+2> file     # redirect stderr only
 ```
