@@ -59,17 +59,70 @@ $ cd -                      # return to previous directory
 ### Creating a file
 
 ```bash
-touch file_name
+touch FILE_NAME
 
 # create file and open text editor
-vim file_name
-nano file_name
+vim FILE_NAME
+nano FILE_NAME
+
+# make temporary file in /tmp (deleted on next boot)
+mktemp -t FILE_NAME
+
+# create a directory
+mkdir DIRECTORY_NAME
+# delete a directory (fails if directory is not empty)
+rmdir DIRECTORY_NAME
+# delete directory and its contents
+rm -r DIRECTORY_NAME
+# force delete directory and its contents
+rm -rf DIRECTORY_NAME
 ```
 
 ### Moving a file
 
 ```bash
+# if destination is a dir, target is placed in dir
+# if destination is a file, target overwrites file
 mv source_file target_file
+mv file.txt /home/usr/file.txt
+
+mv -f # force move and overwrite
+mv -i # interactive prompt befor everwrite
+mv -u # update - move when source is newer than target
+mv -v # verbose - print source and target files
+
+# rename file foo to bar
+mv foo bar
+
+# move all JSON files to subdirectory bar
+mv *.json bar
+
+# move all files in subdirectory foo to current directory
+mv foo/* .
+```
+
+Rsync to move.
+
+```bash
+Local to Local:  rsync [OPTION]... [SRC]... DEST
+Local to Remote: rsync [OPTION]... [SRC]... [USER@]HOST:DEST
+Remote to Local: rsync [OPTION]... [USER@]HOST:SRC... [DEST]
+
+# archive mode - sync recursively
+rsync -a
+
+# force compression to send to destination machine
+rsync -z
+rsync --compress
+
+# progress bar and keep partially transferred files
+rsync -P
+
+# quiet to supress non-error messages
+rsync -q
+rsync --quiet
+
+
 ```
 
 ### Copying a file
@@ -79,6 +132,11 @@ cp source_file target_file
 
 # copy directory, and create target_dir if it doesn't exist
 cp -r source_dir target_dir
+
+# copy target file to source file
+cat TARGET_FILE > SOURCE_FILE
+# merge to files together
+cat FILE_1 >> FILE_2
 ```
 
 ### Deleting a file
@@ -91,6 +149,51 @@ rm -r directory_name
 
 # force remove file
 rm -f file_name
+
+# display deletion status confirmation
+rm -v file_name
+```
+
+### Reading a file
+
+```bash
+# display contents of file to terminal window
+cat FILE_NAME
+# display number of lines
+cat -n FILE_NAME
+# display number of lines (alternate)
+nl FILE_NAME
+
+# display first 10 lines of file to terminal window
+head FILE_NAME
+# display last 10 lines of file to terminal window
+tail FILE_NAME
+# display last XX lines of file to terminal window
+tail -n XX FILE_NAME
+# display last 10 lines of file and keep open for changes
+tail -f FILE_NAME
+
+more FILE_NAME
+less FILE_NAME
+```
+
+### Finding a file
+
+```bash
+# seach for file or dir at current dir and all subdirs
+>>> find . -name NAME TYPE
+
+# print out directory tree structure
+tree
+```
+
+### Creating a Symbolic Link
+
+```bash
+# create symbolic link
+ln -s FILE_NAME LINK
+# check where symbolic link points to
+readlink FILE_NAME
 ```
 
 ## Text
@@ -111,6 +214,13 @@ sed -i "s,<VERSION_NUMBER>,10,g" someFile.txt
 sed -i'.original' -e  "s,<SOMETHING_TO_FIND>,REPLACE_TEXT,g" someFile.txt
 ```
 
+### Alias sed
+
+```bash
+brew install gnu-sed
+alias sed=gnu-sed
+```
+
 ## System Information
 
 ```bash
@@ -123,9 +233,18 @@ finger user # display infomation about "user"
 uname -a    # show kernel information
 df          # show disk usage
 du          # show directory space usage
+# show disk quota
+quota -v
 free        # show memory and swap usage
 cat /proc/cpuinfo   # CPU information
 cat /proc/meminfo   # memory information
+
+# switch to given user
+su USER
+# swtich to root user (may need: sudo su -)
+su -
+# execute command as super user
+sudo COMMAND
 ```
 
 ## Networking
@@ -136,6 +255,55 @@ ping google.com
 
 # get DNS information about domain
 dig google.com
+```
+
+### cURL
+
+```bash
+curl https://google.com
+
+# download file and set name to file_name
+curl https://google.com --output file_name
+curl https://google.com -o file_name
+
+# silence output
+curl https://google.com --silent
+curl https://google.com -s
+
+# follow a location (instead of returning redirect)
+curl --location https://google.com
+
+# username/password authentication
+curl http://user:password@example.com/
+# OR
+curl -u user:password http://example.com/
+
+# curl POST using application/x-www-form-urlencoded
+curl --data "birthyear=1905&press=%20OK%20" http://example.com/api
+
+# curl POST using application/json
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"key":"value","key":"value"}' \
+  http://example.com/api
+
+#
+curl https://mysubdomain.zendesk.com/api/v2/groups.json \
+    -v -u myemail@example.com:mypassword
+
+# Certificates
+curl --cert mycert.pem https://secure.example.com
+
+# use your own CA cert store to verify server's certificate
+curl --cacert ca-bundle.pem https://example.com/
+
+# ignore certificate verification
+curl --insecure https://secure.example.com
+# OR
+curl -k https://secure.example.com
+
+# curl resolve (point to different address for a hostname)
+curl --resolve www.example.org:80:127.0.0.1 http://www.example.org/
 ```
 
 ### wget
@@ -160,6 +328,18 @@ wget --method=post -O- -q --body-data='{"key": "value"}' --header=Content-Type:a
 ## Compressing
 
 ```bash
+# untar tar.gz files
+tar -zxvf file.tar.gz
+
+# specify output file name
+tar -zxvf file.tar.gz output_file.txt
+
+# tar using gzip compression
+tar -cvzf target.tar.gz source_file_or_directory
+
+# tar using bzip2 compression
+tar -cvjf target.tar.bz2 source_file_or_directory
+
 tar -cf file.tar files  # create a tar named file.tar containing files
 tar xf file.tar         # extract the files from file.tar
 tar czf file.tar.gz files   # create a tar with Gzip compression
@@ -194,10 +374,93 @@ ls | grep *report*
 ## Running Commands
 
 ```bash
-whereis app # show possible locations of "app"
-which app   # show default location of "app" to be used
+whereis command # show possible locations of "command"
+which command   # show default location of "command" to be used
 
 # see manual page for command
 man command
 man grep
+```
+
+## Homebrew
+
+```bash
+# install formula
+brew install FORMULA
+# uninstall formula
+brew uninstall FORMULA
+# list all installed formulae
+brew list
+# get info on formula
+brew info FORMULA
+# display all locally available forumae for brewing
+brew search
+# substring match on forumae for brewing
+brew search SEARCH_TEXT
+
+# check version
+brew --version
+# print help
+brew help
+# print help for sub command
+brew help SUB_COMMAND
+# check for problems
+brew doctor
+
+# delete old versions of all installed formulae
+brew cleanup
+# dry-run of delete old versions of all installed formulae
+brew cleanup -n
+# delete old versions of a given installed formulae
+brew cleanup FORMULA
+
+```
+
+### Upgrading Homebrew and Formulas
+
+```bash
+# get latest version of homebrew and formula
+brew update
+# upgrade out of date and unpinned brews
+brew upgrade
+# upgrade specified brew
+brew upgrade FORMULA
+# show formulae with updates available
+brew outdated
+# lock version and prevent updates for given forumlae
+brew pin FORMULA
+# unlock version and allow updates for given formulae
+brew unpin FORMULA
+```
+
+### External Repositories Using Tap
+
+Add additional homebrew repositories with `brew tap`.
+
+```bash
+# list current taps (tapped repositories)
+brew tap
+# tap a formula repository from github
+brew tap USER/REPO
+# tap a formula repository from given URL
+brew tap USER/REPO URL
+# untap a formula repository
+brew untap USER/REPO
+```
+
+### Cask
+
+> This is outdated! Use updated `brew <command> --cask` instead.
+
+```bash
+# tap the Cask repository in GitHub
+brew tap homebrew/cask
+# install a given cask
+brew cask install CASK
+# reinstall a given cask
+brew cask reinstall CASK
+# uninstall a given cask
+brew cask uninstall CASK
+# list all installed casks
+brew cask list
 ```

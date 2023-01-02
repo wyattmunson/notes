@@ -852,3 +852,19 @@ echo EXISTING STATUS $existing_status
 
 export existing_status=`helm ls -n ${namespace} | grep ${chart_name} | awk '{print $8}'`
 echo EXISTING STATUS $existing_status
+
+---
+
+To extract the file clownsdancingballet.doc from example.tar.gz, enter:
+
+$ tar -zxvf example.tar.gz clownsdancingballet.doc
+
+Where,
+
+    -z : Work on gzip compression automatically when reading archives.
+    -x : Extract tar.gz archive.
+    -v : Produce verbose output (Display progress and extracted file list on screen).
+    -f : Read the archive from the archive to the specified file. (In this case, read example.tar.gz.)
+    -t : List the files in the archive.
+    -r : Append files to the end of the tarball.
+    –delete (GNU/Linux tar only) : Delete files from the tarball.
