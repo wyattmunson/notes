@@ -111,8 +111,9 @@ cp source_file target_file
 # copy directory, and create target_dir if it doesn't exist
 cp -r source_dir target_dir
 
-# copy target file to source file
-cat TARGET_FILE > SOURCE_FILE
+# copy source file to target file
+cat  SOURCE_FILE > TARGET_FILE
+
 # merge to files together
 cat FILE_1 >> FILE_2
 ```
@@ -172,6 +173,13 @@ diff file_name1 file_name2
 ```bash
 # seach for file or dir at current dir and all subdirs
 find . -name NAME [TYPE]
+find . -iname search_text
+
+# ignore text case
+find . -iname search_text
+
+# search by file size (c, k, M, G, T, P)
+find . -name search_text -size 10M
 
 # print out directory tree structure
 tree

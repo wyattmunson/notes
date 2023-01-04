@@ -9,6 +9,7 @@
 | [cut](#curl---cut)                              | cut                             |                                                           |
 | [dig](#dig---domain-information-grouper)        | domain information grouper      | Show DNS information for a URL                            |
 | [file](#file-command)                           | file                            | Display file type                                         |
+| [find](#find-command)                           | find                            | Find a file                                               |
 | [echo](#echo-command)                           | echo                            | Print output to the terminal                              |
 | [export](#export---export)                      | export                          | Export a variable                                         |
 | [grep](#grep---global-regular-expression-print) | global regular expression print | Use regex to find files                                   |
@@ -425,6 +426,32 @@ file -s /dev/sda
 file /dev/sda5
 file -s /dev/sda5
 
+```
+
+## `find` command
+
+Find a file.
+
+Basic usage:
+
+```bash
+find . -name search_text
+```
+
+Usage
+
+```bash
+# ignore text case
+find . -iname search_text
+
+# follow subdirectories to level X
+find . -name search_text -maxdepth X
+
+# only find files modified in last 4 days
+find . -name search_text -mtime 4
+
+# only find empty
+find . -name search_text -type f
 ```
 
 ## `echo` command
