@@ -39,6 +39,18 @@ Dynamic ports (aka: private ports): 49152 to 65535
 |        |            |                               |
 |        |            |                               |
 
+# IP Address
+
+An IP address is a numerical identifier, e.g., 192.168.0.1, that is attached tro a computer network using Internet Protocol for communication. The IP address serves as an address for computers on a network
+
+## Public IP Address
+
+A public IP address is an IP address that can be accessed over the internet. If a computer, server, or router is assigned a public IP address, it is reachable by anyone over the internet.
+
+## Private IP Addresses
+
+Private IP addresses are those not accessable over the internet. They can only be accessed by other computers on the same network.
+
 ## Public IP address ranges
 
 10.0.0.0 - 10.255.255.255
